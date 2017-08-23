@@ -1,0 +1,22 @@
+{
+  "name": "githabapi",
+  "version": "1.0.0",
+  "description": "Kottans Front End 2017 — test assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samogray/githabApi.git"
+  },
+  "keywords": [
+    "kottans"
+  ],
+  "author": "Samogray Olexandr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samogray/githabApi/issues"
+  },
+  "homepage": "https://github.com/samogray/githabApi#readme"
+}
