@@ -11,6 +11,8 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+const SvgStore = require('webpack-svgstore-plugin')
+
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -142,6 +144,13 @@ module.exports = {
               name: 'static/media/[name].[hash:8].[ext]',
             },
           },
+          {
+            test: /\.(jpe?g|png|gif|svg)$/i,
+            loader: 'file-loader',
+            query: {
+              name: 'images/[name]-[hash].[ext]?[hash]'
+            }
+          },
           // Process JS with Babel.
           {
             test: /\.(js|jsx)$/,
@@ -256,6 +265,16 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
+    }),
+    new SvgStore({
+      svgoOptions: {
+        plugins: [{
+          removeTitle: true
+        }, {
+          removeElementsByAttr: true
+        }]
+      },
+      prefix: 'icon-'
     }),
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),
