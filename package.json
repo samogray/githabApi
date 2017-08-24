@@ -4,6 +4,7 @@
   "description": "Kottans Front End 2017 — test assignment",
   "main": "index.js",
   "dependencies": {
+    "gh-pages": "^1.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.11"
@@ -12,7 +13,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -26,5 +29,5 @@
   "bugs": {
     "url": "https://github.com/samogray/githabApi/issues"
   },
-  "homepage": "https://github.com/samogray/githabApi#readme"
+  "homepage": "https://samogray.github.io/githabApi"
 }
