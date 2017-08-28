@@ -1,0 +1,123 @@
+$grey: #efe8e8;
+$blue: #03A9F4;
+.app {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background-color: #03A9F4;
+  min-height: 100vh;
+  &__title {
+    color: #fff;
+    margin-top: 0;
+  }
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: .6;
+    z-index: -1;
+  }
+}
+
+.search {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  &__input {
+    outline: none;
+    width: 300px;
+    padding: 0 44px 0 12px;
+    height: 50px;
+    color: #0D47A1;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    border: 3px solid #0886bf;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: border-color .2s ease-out, box-shadow .2s ease-out;
+    box-shadow: 1px 4px 20px 0px rgba(0, 0, 0, 0.22);
+    &:focus {
+      box-shadow: 1px 4px 18px 0px rgba(0, 0, 0, 0.62);
+    }
+  }
+  &__input-wrapper {
+    position: relative;
+    margin-bottom: 30px;
+  }
+  &__clear {
+    display: inline-block;
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    line-height: 25px;
+    color: $blue;
+    opacity: 0;
+    border-radius: 50%;
+    background-color: $grey;
+    box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.15);
+    transition: color .2s ease-out, transform .2s ease-out, opacity .2s ease-out;
+    &:hover {
+      color: red;
+    }
+    &_active {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+  }
+  &__button {
+    line-height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: darken($blue, 5%);
+    color: #fff;
+    border-radius: 7px;
+    border: 1px solid #5bccff;
+    transition: background-color .2s ease-out;
+    &:hover {
+      background-color: darken($blue, 7%);
+    }
+  }
+}
+
+.panel {
+  border: 3px solid #0886bf;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 1px 4px 20px 0px rgba(0, 0, 0, 0.22);
+  color: #0D47A1;
+  &_search {
+    display: flex;
+    height: 120px;
+    align-items: center;
+    position: absolute;
+    font-size: 14px;
+    width: 362px;
+    bottom: -160px;
+    padding: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  &_search {
+    margin-right: 10px;
+  }
+  &__pic {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
