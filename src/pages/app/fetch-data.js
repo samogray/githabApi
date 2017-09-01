@@ -11,12 +11,21 @@ const json = (response) => {
 
 const userData ={data: null}
 
-export const fetchUser = (username, callback, error) => {
-fetch(`https://api.github.com/users/${username}`)
+export const fetchUser = (username) => {
+return fetch(`https://api.github.com/users/${username}`)
 		.then(status)
 		.then(json)
-		.then(callback)
-		.catch(error)
+		.then(data => ({data}))
+		.catch(error => ({error}))
+	}
+
+
+export const fetchRepos = (username) => {
+return fetch(`https://api.github.com/users/${username}/repos`)
+		.then(status)
+		.then(json)
+		.then(data => ({data}))
+		.catch(error => ({error}))
 	}
 
 
