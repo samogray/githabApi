@@ -4,6 +4,7 @@ import Icon from './../../components/icon'
 import {fetchUser, fetchRepos} from './../app/fetch-data'
 import {DataParse} from './date-parse'
 import ItemRepository from './item-rep'
+import FilterPanel from './filter'
 import {browserHistory} from 'react-router'
 import './user.scss'
 
@@ -13,22 +14,43 @@ class User extends Component {
 	state = {
 		userInfo: null,
 		loading: true,
-		repos: null
+		repos: null,
+		languages: [],
+		error: false,
+		nextPage: null
 	}
 	componentWillMount() {
 		fetchUser(this.props.params.user).then(({data = null, error}) => {
 			this.setState({userInfo: data, error})
 		})
-		fetchRepos(this.props.params.user).then(({data = null, error}) => {
-			this.setState({repos: data, error})
+		fetchRepos(this.props.params.user, 0).then(({data = null, error, nextPage}) => {
+			this.setState({repos: data,
+				languages: this.getLanguages(data), error, nextPage},)
 		})
 	}
+
+	getLanguages = (repos) => {
+		const arr = repos ? repos.reduce((result, item) => {
+			return [...result, item.language]
+		}, []) : ''
+		const unique = (arr) => {
+			var obj = {};
+			for(var i = 0;i < arr.length;i++) {
+				arr[i] === null ? arr[i] = "None" : arr[i]
+				var str = arr[i]
+				obj[str] = true
+			}
+			return Object.keys(obj);
+		}
+		return unique(arr)
+	}
+
 	render() {
 		const userInfo = this.state.userInfo !== null && this.state.userInfo
 		const repos = this.state.repos !== null && this.state.repos
-		console.log(repos)
+		const nextPage = !this.state.error && this.state.nextPage
 		return (
-			(this.state.userInfo || this.state.repos) ? <div className="user">
+			!this.state.error ? <div className="user">
 				<div className="user__header">
 					<div className="container">
 						<div className="flex">
@@ -48,57 +70,23 @@ class User extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="user__filter">
-					<div className="container">
-						<div className="user__filter-item">
-							<select name="language" id="language">
-								<option value="html">Html</option>
-							</select>
-						</div>
-						<div className="user__filter-item">
-							<label htmlFor="issue">
-								<input type="checkbox" id="issue" />
-								Has open issues</label>
-						</div>
-						<div className="user__filter-item">
-							<label htmlFor="topics">
-								Has topics
-					<input type="checkbox" id="topic" />
-								Has open issues</label>
-						</div>
-						<div className="user__filter-item">
-							<label htmlFor="dateupdate">
-								updated after X date	</label>
-							<input type="date" id="dateupdate" />
-							updated after X date
-					</div>
-						<div className="user__filter-item">
-							<label htmlFor="All"> All <input type="radio" id="all" name="type" /></label>
-							<label htmlFor="Forks"> All <input type="radio" id="forks" name="type" /></label>
-							<label htmlFor="Sources"> All <input type="radio" id="sources" name="type" /></label>
-						</div>
-					</div>
-				</div>
+				<FilterPanel languages={this.state.languages}/>
 				<div className="user__list">
 					<div className="container">
-					<h3>{`${userInfo.name} have ${repos.length} repositories`}</h3>					
+						<h3>{`${userInfo.name} have ${repos.length} repositories`}</h3>
 						{repos && repos.map((item, key) => <ItemRepository
 							name={item.name} key={key}
 							description={item.description}
 							forks={item.forks}
 							language={item.language}
-							updated_at={DataParse(item.updated_at)}
+							updated_at={DataParse(item.pushed_at)}
 							stargazers_count={item.stargazers_count} />)}
 						<div className="user__pagination">
-							<div className="pagination">
-								<button className="pagination__btn pagination__btn_active">1</button>
-								<button className="pagination__btn">2</button>
-								<button className="pagination__btn">3</button>
-							</div>
+							 <button className="btn">Load More</button>
 						</div>
 					</div>
 				</div>
-			</div> : null
+			</div> : <div>{this.state.error.message}</div>
 
 		);
 	}
