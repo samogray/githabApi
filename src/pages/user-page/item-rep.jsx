@@ -15,7 +15,7 @@ class ItemRepository extends Component {
 		return (
 			<div className="card">
 				<h3>
-					<a href="#" className="card__name" title="buck">{name}</a>
+					<a href="#" className="card__name" title={name}>{name}</a>
 				</h3>
 				<p className="card__description">
 					{description}

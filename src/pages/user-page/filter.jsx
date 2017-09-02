@@ -30,7 +30,6 @@ class FilterPanel extends React.Component {
 						<label htmlFor="dateupdate">
 							updated after X date	</label>
 						<input type="date" id="dateupdate" />
-						updated after X date
 		</fieldset>
 					<fieldset className="user__filter-item">
 						<label htmlFor="all"> All <input type="radio" id="all" name="type" /></label>

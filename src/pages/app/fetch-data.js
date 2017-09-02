@@ -18,13 +18,13 @@ export const fetchUser = (username) => {
 	return fetch(`https://api.github.com/users/${username}`)
 		.then(status)
 		.then(json)
-		.then(data => ({data}))
+		.then(data => ({data: data[0]}))
 		.catch(error => ({error}))
 }
 
 
 export const fetchRepos = (username, page) => {
-	return fetch(`https://api.github.com/users/${username}/repos?page=${page + 1}`)
+	return fetch(`https://api.github.com/users/${username}/repos?page=${page}`)
 		.then(status)
 		.then(json)
 		.then(([data, nextPage]) => ({data, nextPage}))

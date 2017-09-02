@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 class UserPage extends Component {
-  render () {
+  render() {
     return (
       <div>
-				{this.props.children}
-			</div>
-			
+        {this.props.children}
+      </div>
     );
   }
 }

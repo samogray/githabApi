@@ -38,6 +38,7 @@
   &__title {
     color: #fff;
     margin-top: 0;
+    margin-bottom: 41px;
   }
   &__overlay {
     position: absolute;
@@ -106,6 +107,8 @@
   &__button {
     line-height: 50px;
     font-size: 18px;
+    text-decoration: none;
+    text-align: center;
     font-weight: bold;
     cursor: pointer;
     background-color: darken($blue, 5%);
@@ -226,6 +229,7 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  border: 2px solid $blue;
   &_search {
     margin-right: 30px;
   }
@@ -233,11 +237,11 @@
     display: block;
     max-width: 100%;
     height: auto;
-    border: 2px solid $blue;
     border-radius: 50%;
   }
   &_rect {
     border-radius: 0;
+    border: none;
     .thumbnail__pic {
       border-radius: 0;
       border: none;

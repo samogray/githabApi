@@ -13,7 +13,6 @@ export const DataParse = (date) => {
 	const currenDate = new Date()
 
 	const fullYear = currenDate.getFullYear() - repdata.getFullYear()
-	console.log(fullYear)
 
 	const resultYear = Math.floor((currenDate - repdata) / 31536000000)
 	const resultMonth = Math.floor((currenDate - repdata) / 2592000000)

@@ -18,13 +18,10 @@ require('webpack-svgstore-plugin/src/helpers/svgxhr')(__svg__)
 ReactDOM.render(<Router history={browserHistory}>
 	<Route component={Layout}>
 		<Route path='/' component={App}></Route>
-		<Route component={UserPage}>
-			<IndexRoute component={UserPage} />
-			<Route path='user/:user' component={User}/>>
+			<IndexRoute component={App} />
+			<Route path='/:user' component={User}/>>
 			<Route path='repository' component={Repository}></Route>		
-		</Route>
 		<Route path='*' component={NorFound}></Route>
-		
 	</Route>
 </Router>, document.getElementById('root'));
 registerServiceWorker();

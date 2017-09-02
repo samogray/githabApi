@@ -1,9 +1,15 @@
 export const getNextPage = (str) => {
-	let nextPage ={}
-	let arr = str.split(';')
+	let nextPage = {}
+	if (!str) {
+		return nextPage = {
+			iflast: true,
+			page: 1
+		}
+	}
+	let arr =  str.split(';')
 	console.log('str', str)
 	let iflast = str.indexOf('next') === -1 || !str 
-	let page = !iflast && arr[1].slice(-2).charAt(0)
+	let page = !iflast && arr[0].slice(-2).charAt(0)
 	return nextPage = {
 		iflast,
 		page
