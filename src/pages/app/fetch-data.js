@@ -15,7 +15,13 @@ const json = (response) => {
 
 
 export const fetchUser = (username) => {
-	return fetch(`https://api.github.com/users/${username}`)
+	return fetch(`https://api.github.com/users/${username}`, 
+	{
+		headers: {
+			'Accept': 'application/vnd.github.mercy-preview+json',
+			'Content-Type': 'application/json'
+		}
+	})
 		.then(status)
 		.then(json)
 		.then(data => ({data: data[0]}))
@@ -24,10 +30,32 @@ export const fetchUser = (username) => {
 
 
 export const fetchRepos = (username, page) => {
-	return fetch(`https://api.github.com/users/${username}/repos?page=${page}`)
+	return fetch(`https://api.github.com/users/${username}/repos?page=${page}`,
+	{
+		headers: {
+			'Accept': 'application/vnd.github.mercy-preview+json',
+			'Content-Type': 'application/json'
+		}
+	})
 		.then(status)
 		.then(json)
 		.then(([data, nextPage]) => ({data, nextPage}))
 		.catch(error => ({error}))
 }
-
+/* collaborators_url
+:
+"https://api.github.com/repos/facebook/bistro/collaborators{/collaborator }*/
+/* export const fetchRepository = (username, page) => {
+	return fetch(`https://api.github.com/users/${username}/${reposname}?page=${page}`,
+	{
+		headers: {
+			'Accept': 'application/vnd.github.mercy-preview+json',
+			'Content-Type': 'application/json'
+		}
+	})
+		.then(status)
+		.then(json)
+		.then(([data, nextPage]) => ({data, nextPage}))
+		.catch(error => ({error}))
+}
+ */

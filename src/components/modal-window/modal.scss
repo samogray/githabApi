@@ -1,0 +1,33 @@
+.modal {
+  &__overlay {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.57);
+  }
+  &__window {
+    background-color: #fff;
+    position: relative;
+    padding: 15px;
+    border-radius: 10px;
+    min-width: 70vw;
+  }
+  &__close-btn {
+    position: absolute;
+    color: #272323;
+    right: 20px;
+    top: 20px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    &:hover {
+      color: #5B1212;
+    }
+  }
+}

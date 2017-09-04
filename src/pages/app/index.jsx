@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import './App.scss';
 import Icon from './../../components/icon'
-import Loading from './../../components/loading'
+//import Loading from './../../components/loading'
 import classNames from 'classnames'
-import SearchResult from './search-result'
-import {Link, browserHistory} from 'react-router'
+import {browserHistory} from 'react-router'
 import {fetchUser} from './fetch-data'
 
 
@@ -26,7 +25,7 @@ class App extends Component {
 	}
 
 	clearInput = () => this.setState({value: '', data: null, error: false})
-	goLink = (link) => {browserHistory.push(`/${link}`)}
+	goLink = (link) => browserHistory.push(`/${link}`)
 
 	fetchUser = () => fetchUser(this.state.value).then(({data = null, error}) => {
 		this.setState({data, error})
@@ -34,7 +33,6 @@ class App extends Component {
 	})
 
 	render() {
-		const userData = this.state.data
 		return (
 		 <div className="app">
 				<h1 className="app__title">Search Github user</h1>
