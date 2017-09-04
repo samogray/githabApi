@@ -10,35 +10,34 @@ class FilterPanel extends React.Component {
 	}
 
 	handleChangeLanguage = (event) => {
-		//this.setState({selectedOption: event.target.value})
 		this.props.filterLanguage(event.target.value)
 	}
 	handleFilterIssue = (event) => {
-		//this.setState({selectedOption: event.target.value})
 		this.props.handleIssue(event.target.checked)
 	}
 	handleChangeDate = (event) => {
-		//this.setState({date: event.target.value})
 		this.props.fiterUpdateDate(event.target.value)
 	}
 	handleChangeStar = (event) => {
-		//this.setState({star: event.target.value})
 		this.props.fiterStar(event.target.value)
 	}
 	handleTypeChange = (event) => {
-		//this.setState({type: event.target.value})
 		this.props.fiterType(event.target.value)
+	}
+	handleFilterTopics = (event) => {
+		this.props.FilterTopics(event.target.checked)
 	}
 
 	render() {
 		console.log(this.props.filteredLanguageValue);
 		const {languages, type} = this.props
+		const {filterLanguage, filterIssue, filterTopics, filterDateUdate, fiterType, filterStar} = this.props.filter
 		return <div className="user__filter">
 			<div className="container">
 				<fieldset className="user__filter-item">
 					<legend>Languges</legend>
 					<select name="language" id="language"
-						value={this.props.filteredLanguageValue} onChange={this.handleChangeLanguage}>
+						value={filterLanguage} onChange={this.handleChangeLanguage}>
 						<option value="all" key="all">All</option>
 						{languages.map((item, key) => <option value={item.toLowerCase()} key={key}>{item}</option>)}
 					</select>
@@ -63,7 +62,7 @@ class FilterPanel extends React.Component {
 							name="type"
 							value={item.toLowerCase()}
 							onChange={this.handleTypeChange}
-							checked={item === this.props.fiterTypeValue}/>
+							checked={item === fiterType}/>
 							<label htmlFor={item.toLowerCase()} key={key}> {item} </label>
 				</div>)}
 				</fieldset>
@@ -72,7 +71,7 @@ class FilterPanel extends React.Component {
 					<input type="checkbox"
 						id="issue"
 						onChange={this.handleFilterIssue}
-						checked={this.props.checkedIssue} />
+						checked={filterIssue} />
 					Has open issues</label>
 			</fieldset>
 			<fieldset className="user__filter-item">
@@ -80,8 +79,8 @@ class FilterPanel extends React.Component {
 					Has topics
 						<input type="checkbox"
 						id="topic"
-						onChange={() => this.props.handleFilterTopics(this.props.checkedIssue)}
-						checked={this.props.checkedTopics} />
+						onChange={this.handleFilterTopics}
+						checked={filterTopics} />
 				</label>
 			</fieldset>
 			</div>

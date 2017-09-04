@@ -97,50 +97,21 @@ class User extends Component {
 		this.setState({ filter: { ...this.state.filter, [type]: value } })
 	}
 
-	handleFilterLanguage = (newOption) => {
-		//this.setState({filterLanguage: newOption}, this.getFilteredData.languageFilter)
-		this.setFilter({filterLanguage: newOption})
-		
-	}
+	handleFilterLanguage = (newOption) => this.setFilter({filterLanguage: newOption})
 
-	filterIssue = (newOption) => {
-		this.setFilter({language: newOption})
-	}
+	filterIssue = (newOption) => this.setFilter({filterIssue: newOption})
 
-	handleFilterTopics = () => {
-	/* 	this.setState({filterTopics: !this.state.filterTopics}, () => {
-			this.getFilteredData.topicsFilter()
-		}) */
-		this.setFilter({filterTopics: !this.state.filterTopics})
-		
-	}
+	handleFilterTopics = (newOption) => this.setFilter({filterTopics: newOption})
 
-	handleFilterDate = (newDate) => {
-		/* this.setState({filterDateUdate: newDate}, () => {
-			this.getFilteredData.dateUpdateFilter()
-		}) */
-		this.setFilter({filterDateUdate: newDate})
-		
-	}
+	handleFilterDate = (newDate) => this.setFilter({filterDateUdate: newDate})
 
-	handleFilterType = (fiterType) => {
-		/* this.setState({fiterType: newType}, () => {
-			this.getFilteredData.typeFilter()
-		}) */
-		this.setFilter(fiterType)
-		
-	}
+	handleFilterType = (fiterType) => this.setFilter({fiterType: fiterType})
 
-	handleFilterStar = (newValue) => {
-		/* this.setState({filterStar: newValue}, () => {
-			this.getFilteredData.StarFilter()
-		}) */
-		this.setFilter({filterStar: newValue})
-		
-	}
+	handleFilterStar = (newValue) => this.setFilter({filterStar: newValue})
+
 
 	//filterSetValue = (type, value) => this.setState({ filters: { ...this.state.filters, [type]: value } })
-
+	
 	handleSortType = (sort) => {
 		this.setState({sortTypes: sort})
 		console.log('handle sort', sort)
@@ -286,19 +257,14 @@ class User extends Component {
 				/>
 				<FilterPanel
 					languages={this.state.languages}
-					checkedIssue={this.state.filter.filterIssue}
 					handleIssue={this.filterIssue}
-					filteredLanguageValue={this.state.filterLanguage}
 					filterLanguage={this.handleFilterLanguage}
-					handleFilterTopics={this.handleFilterTopics}
-					fiterUpdateDateValue={this.state.filterDateUdate}
+					FilterTopics={this.handleFilterTopics}
 					fiterUpdateDate={this.handleFilterDate}
 					type={type}
-					fiterTypeValue={this.state.fiterType}
+					filter={this.state.filter}
 					fiterType={this.handleFilterType}
 					fiterStar={this.handleFilterStar}
-					fiterStarValue={this.state.filterStar}
-					filterSetValue = {this.filterSetValue}
 				/>
 				<SortPanel sortType={sortType}
 					sortTypeValue={this.state.sortTypes}
