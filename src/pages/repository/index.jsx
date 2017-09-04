@@ -14,12 +14,13 @@ class Repository extends Component {
 		}) */
 	}
   render() {
-   // const {repository, user} = this.props.params
+    const {repoName, user} = this.props
+    console.log('user',this.props.user)
     return (
-      <ModalWindow>
+      <ModalWindow handleOpen = {this.props.handleOpen}>
         <div className="repo">
          <div className="repo__name">
-        Reposi
+          {repoName}
          </div>
       </div>
       </ModalWindow>

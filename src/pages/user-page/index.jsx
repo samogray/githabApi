@@ -7,6 +7,9 @@ import Loader from './../../components/loading'
 import FilterPanel from './filter'
 import SortPanel from './sort-panel'
 import UserInfo from './user-info'
+import ReposInfo from './../repository'
+import {browserHistory} from 'react-router'
+
 import './user.scss'
 
 const type = ['all', 'forks', 'sources']
@@ -48,7 +51,9 @@ class User extends Component {
 		fiterType: 'all',
 		filterStar: '0',
 		isfiltered: false,
-		sortTypes: 'none'
+		sortTypes: 'none',
+		modalOpened: false,
+		activeRepos:''
 	}
 	componentWillMount() {
 		this.setState({loading: true})
@@ -114,6 +119,10 @@ class User extends Component {
 		console.log('handle sort', sort)
 		//this.getFilteredData().StarFilter()
 	}
+
+	handleModalOpen = (activeRepos) => this.setState({modalOpened: !this.state.modalOpened,
+		activeRepos: activeRepos})
+
 
 	getFilteredData = {
 		issueFilter: () => {
@@ -216,6 +225,7 @@ class User extends Component {
 							description={item.description}
 							owner={item.owner.login}
 							forks={item.forks}
+							openRepos={this.handleModalOpen}
 							language={item.language}
 							updated_at={DataParse(item.pushed_at)}
 							stargazers_count={item.stargazers_count} />)}
@@ -224,6 +234,11 @@ class User extends Component {
 						</div>
 					</div>
 					{this.state.loading && <Loader />}
+					{this.state.modalOpened && <ReposInfo
+						handleOpen={this.handleModalOpen}
+						user={userInfo.login}
+						repoName={this.state.activeRepos}
+						/>}
 				</div>
 			</div> : <div>{this.state.error.message}</div>
 

@@ -9,7 +9,7 @@ class ModalWindow extends React.Component {
     return (<div className="modal">
       <div className="modal__overlay">
         <div className="modal__window">
-          <div className="modal__close-btn">
+          <div className="modal__close-btn" onClick={this.props.handleOpen}>
             <Icon name="clear-ico" />
           </div>
           {this.props.children}
