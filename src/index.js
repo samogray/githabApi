@@ -13,10 +13,9 @@ const __svg__ = {path: './components/icon/**/*.svg', name: 'assets/svg/[hash].sp
 require('webpack-svgstore-plugin/src/helpers/svgxhr')(__svg__)
 
 
-
 ReactDOM.render(<Router history={browserHistory}>
 	<Route component={Layout}>
-		<Route path='/' component={App}></Route>
+		<Route path={process.env.PUBLIC_URL + '/'} component={App}></Route>
 		<IndexRoute component={App} />
 		<Route path='/:user' component={User}></Route>
 		<Route path=':user/:repository' component={Repository}></Route>		

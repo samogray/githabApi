@@ -13,6 +13,10 @@ class FilterPanel extends React.Component {
 		//this.setState({selectedOption: event.target.value})
 		this.props.filterLanguage(event.target.value)
 	}
+	handleFilterIssue = (event) => {
+		//this.setState({selectedOption: event.target.value})
+		this.props.handleIssue(event.target.checked)
+	}
 	handleChangeDate = (event) => {
 		//this.setState({date: event.target.value})
 		this.props.fiterUpdateDate(event.target.value)
@@ -67,7 +71,7 @@ class FilterPanel extends React.Component {
 				<label htmlFor="issue">
 					<input type="checkbox"
 						id="issue"
-						onChange={() => this.props.handleFilterIssue(this.props.checkedIssue)}
+						onChange={this.handleFilterIssue}
 						checked={this.props.checkedIssue} />
 					Has open issues</label>
 			</fieldset>

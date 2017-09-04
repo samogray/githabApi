@@ -56,7 +56,7 @@ class User extends Component {
 		nextPage: null,
 		filter: {
 			filterLanguage: 'all',
-			filterIssue: false,
+			filterIssue: true,
 			filterTopics: false,
 			filterDateUdate: '',
 			fiterType: 'all',
@@ -92,15 +92,19 @@ class User extends Component {
 		})
 	}
 
-	filterIssue = () => {
-		//this.setState({filterIssue: !this.state.filterIssue}, this.getFilteredData.issueFilter)
-		this.setFilter({filterIssue: !this.state.filterIssue})
+	filterChange= (type, value) => {
+		
+		this.setState({ filter: { ...this.state.filter, [type]: value } })
 	}
 
 	handleFilterLanguage = (newOption) => {
 		//this.setState({filterLanguage: newOption}, this.getFilteredData.languageFilter)
 		this.setFilter({filterLanguage: newOption})
 		
+	}
+
+	filterIssue = (newOption) => {
+		this.setFilter({language: newOption})
 	}
 
 	handleFilterTopics = () => {
@@ -209,14 +213,19 @@ class User extends Component {
 	}
 
 
-	setFilter = filter => this.setState({...this.state.filter, ...filter})
+	setFilter = filter => this.setState({filter: {...this.state.filter, ...filter}})
 	resetFilter = key => {
-		const {filters} = this.state
-
-		//see
-		//delete key from filters
-
-		this.setState({filters})
+		const {filter = {}} = this.state
+	
+		const newFilter = Object.keys(filter).reduce((acc, filterName) => {
+			if (filterName === key) {
+				 return acc
+			}
+	
+			return {...acc, [filterName]: filter[filterName]}
+		})
+	
+	this.setState({filter: newFilter})
 	}
 	// this.setFilter({language: 'javascript'})
 	// this.resetFilter('language')
@@ -277,8 +286,8 @@ class User extends Component {
 				/>
 				<FilterPanel
 					languages={this.state.languages}
-					checkedIssue={this.state.filterIssue}
-					handleFilterIssue={this.filterIssue}
+					checkedIssue={this.state.filter.filterIssue}
+					handleIssue={this.filterIssue}
 					filteredLanguageValue={this.state.filterLanguage}
 					filterLanguage={this.handleFilterLanguage}
 					handleFilterTopics={this.handleFilterTopics}
