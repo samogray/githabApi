@@ -14,16 +14,16 @@ class SortPanel extends React.Component {
 		
 		return <div className="user__filter user__filter_sort">
 			<div className="container">
-				<fieldset className="user__filter-item">
+				<fieldset className="user__filter-item user__filter-item_full">
 				<legend>Sorting by list</legend>
-				{sortType.map((item, key) => <label htmlFor={item.id.toLowerCase()} key={key}>
-				{item.title} <input type="radio"
+				{sortType.map((item, key) => <div className="user__filter-item user__filter-item_nomargin">
+				 <input type="radio"
 					id={item.id.toLowerCase()}
 					name="sort"
 					value={item.id.toLowerCase()}
 					onChange={this.handleTypeChange}
 					checked={item.id.toLowerCase() === this.props.sortTypeValue.toLowerCase()}/>
-			</label>)}
+					<label htmlFor={item.id.toLowerCase()} key={key}>{item.title} </label></div>)}
 				</fieldset>
 			</div>
 		</div>

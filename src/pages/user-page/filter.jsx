@@ -40,47 +40,46 @@ class FilterPanel extends React.Component {
 					</select>
 				</fieldset>
 				<fieldset className="user__filter-item">
-					<label htmlFor="issue">
-						<input type="checkbox"
-							id="issue"
-							onChange={() => this.props.handleFilterIssue(this.props.checkedIssue)}
-							checked={this.props.checkedIssue} />
-						Has open issues</label>
-				</fieldset>
-				<fieldset className="user__filter-item">
-					<label htmlFor="topic">
-						Has topics
-							<input type="checkbox"
-							id="topic"
-							onChange={() => this.props.handleFilterTopics(this.props.checkedIssue)}
-							checked={this.props.checkedTopics} />
-					</label>
-				</fieldset>
-				<fieldset className="user__filter-item">
-					<label htmlFor="dateupdate">
-						updated after X date	</label>
+				<legend>Updated after X date</legend>
 					<input type="date"
 						id="dateupdate"
 						value={this.props.fiterUpdateDateValue}
 						onChange={this.handleChangeDate} />
 				</fieldset>
 				<fieldset className="user__filter-item">
-					<label htmlFor="dateupdate">
-					starred >= X times</label>
+				<legend>starred >= X times</legend>
 					<input type="number"
 						value={this.props.fiterStarValue}
 						onChange={this.handleChangeStar} />
 				</fieldset>
 				<fieldset className="user__filter-item">
-					{type.map((item, key) => <label htmlFor={item.toLowerCase()} key={key}>
-						{item} <input type="radio"
+					{type.map((item, key) => <div className="user__filter-item user__filter-item_nomargin">
+						<input type="radio"
 							id={item.toLowerCase()}
 							name="type"
 							value={item.toLowerCase()}
 							onChange={this.handleTypeChange}
 							checked={item === this.props.fiterTypeValue}/>
-					</label>)}
+							<label htmlFor={item.toLowerCase()} key={key}> {item} </label>
+				</div>)}
 				</fieldset>
+				<fieldset className="user__filter-item">
+				<label htmlFor="issue">
+					<input type="checkbox"
+						id="issue"
+						onChange={() => this.props.handleFilterIssue(this.props.checkedIssue)}
+						checked={this.props.checkedIssue} />
+					Has open issues</label>
+			</fieldset>
+			<fieldset className="user__filter-item">
+				<label htmlFor="topic">
+					Has topics
+						<input type="checkbox"
+						id="topic"
+						onChange={() => this.props.handleFilterTopics(this.props.checkedIssue)}
+						checked={this.props.checkedTopics} />
+				</label>
+			</fieldset>
 			</div>
 		</div>
 

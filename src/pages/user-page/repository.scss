@@ -33,3 +33,67 @@
 		margin-right: 16px;
   }
 }
+
+.repo {
+  font-size: 14px;
+  color: #03A9F4;
+  &__name {
+    font-size: 28px;
+    color: darken(#03A9F4, 10%);
+    border-bottom: 1px solid #cdcdcd;
+    font-weight: 300;
+    padding-bottom: 20px;
+    margin-bottom: 12px;
+  }
+  &__link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding-bottom: 10px;
+    transition: color .2s ease-out;
+    &_pr {
+      color: darken(#03A9F4, 15%);
+    }
+    &:hover {
+      color: darken(#03A9F4, 15%);
+    }
+  }
+  &__section {
+    padding: 10px;
+    background: rgba(243, 243, 243, 0.52);
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+  &__lang-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  &__lang-value {
+    padding: 4px;
+    border: 1px solid #e5e2e2;
+    border-radius: 4px;
+    margin-right: 5px;
+  }
+  &__title {
+    margin-top: 0px;
+  }
+}
+
+.contributors {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e5e2e2;
+  padding: 5px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+  &__name {
+    margin-left: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+}

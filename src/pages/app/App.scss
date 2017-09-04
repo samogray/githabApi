@@ -104,6 +104,10 @@
       transform: translateY(-50%) scale(1);
     }
   }
+  &__loading {
+    position: relative;
+    top: 40px;
+  }
   &__button {
     line-height: 50px;
     font-size: 18px;
@@ -246,6 +250,10 @@
       border-radius: 0;
       border: none;
     }
+  }
+  &_xs {
+    width: 50px;
+    height: 50px;
   }
 }
 

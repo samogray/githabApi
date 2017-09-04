@@ -5,6 +5,7 @@ import Icon from './../../components/icon'
 import classNames from 'classnames'
 import {browserHistory} from 'react-router'
 import {fetchUser} from './fetch-data'
+import Loader from './../../components/loading'
 
 
 class App extends Component {
@@ -13,12 +14,15 @@ class App extends Component {
 		value: '',
 		error: false,
 		data: null,
-		link: ''
+		link: '',
+		loading: false
 	}
 
 	handleChange = (event) => {
+
 		this.setState({value: event.target.value})
 		if((event.charCode === 13) || (event.keyCode === 13)) {
+			this.setState({loading: true})
 			this.fetchUser()
 		}
 		this.state.error && this.setState({data: null, error: false})
@@ -28,13 +32,13 @@ class App extends Component {
 	goLink = (link) => browserHistory.push(`/${link}`)
 
 	fetchUser = () => fetchUser(this.state.value).then(({data = null, error}) => {
-		this.setState({data, error})
+		this.setState({data, error, loading: false})
 		!this.state.error && this.goLink(data.login)
 	})
 
 	render() {
 		return (
-		 <div className="app">
+			<div className="app">
 				<h1 className="app__title">Search Github user</h1>
 				<div className="search">
 					<div className="search__input-wrapper">
@@ -54,9 +58,11 @@ class App extends Component {
 					</div>
 					<button className="search__button" onClick={this.fetchUser}
 						title="Search">Search</button>
+					<div className="search__loading">
+						{this.state.loading && <Loader absolute />}
+					</div>
 				</div>
-
-			</div> )
+			</div>)
 	}
 }
 

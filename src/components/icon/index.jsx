@@ -9,7 +9,7 @@ const Icon = ({name, width, height, fill, stroke, className}) => <i className={c
   </svg>
 </i>
 
-Icon.propTypes = {
+Icon.PropTypes = {
   name: PropTypes.string,
   fill: PropTypes.string,
   stroke: PropTypes.string,

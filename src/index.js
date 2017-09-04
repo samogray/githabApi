@@ -18,11 +18,8 @@ ReactDOM.render(<Router history={browserHistory}>
 	<Route component={Layout}>
 		<Route path='/' component={App}></Route>
 		<IndexRoute component={App} />
-		<Route path='/:user' component={User}>
-			<IndexRoute component={User} />
-			<Route path=':user/:repository' component={Repository}></Route>
-		</Route>
-
+		<Route path='/:user' component={User}></Route>
+		<Route path=':user/:repository' component={Repository}></Route>		
 		<Route path='*' component={NorFound}></Route>
 	</Route>
 </Router>, document.getElementById('root'));

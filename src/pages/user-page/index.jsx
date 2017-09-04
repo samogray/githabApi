@@ -7,7 +7,6 @@ import Loader from './../../components/loading'
 import FilterPanel from './filter'
 import SortPanel from './sort-panel'
 import UserInfo from './user-info'
-import ReposInfo from './../repository'
 import {browserHistory} from 'react-router'
 
 import './user.scss'
@@ -35,6 +34,17 @@ const sortType = [
 		id: 'noneSort'
 	}
 ]
+
+function compose (fns) {
+  return function (result) {
+    for (var i = fns.length - 1; i > -1; i--) {
+      result = fns[i].call(this, result)
+    }
+
+    return result
+  }
+}
+
 class User extends Component {
 	state = {
 		userInfo: null,
@@ -44,22 +54,25 @@ class User extends Component {
 		languages: [],
 		error: false,
 		nextPage: null,
-		filterLanguage: 'all',
-		filterIssue: false,
-		filterTopics: false,
-		filterDateUdate: '',
-		fiterType: 'all',
-		filterStar: '0',
-		isfiltered: false,
+		filter: {
+			filterLanguage: 'all',
+			filterIssue: false,
+			filterTopics: false,
+			filterDateUdate: '',
+			fiterType: 'all',
+			filterStar: '0',
+		},
+		isfiltered: false,		
 		sortTypes: 'none',
 		modalOpened: false,
-		activeRepos:''
+		activeRepos: ''
 	}
 	componentWillMount() {
 		this.setState({loading: true})
 		fetchUser(this.props.params.user).then(({data = null, error}) => {
 			this.setState({userInfo: data, error, loading: false})
 		})
+
 		fetchRepos(this.props.params.user, 1).then(({data = null, error, nextPage}) => {
 			this.setState({loading: true})
 			this.setState({
@@ -80,39 +93,49 @@ class User extends Component {
 	}
 
 	filterIssue = () => {
-		this.setState({filterIssue: !this.state.filterIssue})
-		this.getFilteredData.issueFilter()
+		//this.setState({filterIssue: !this.state.filterIssue}, this.getFilteredData.issueFilter)
+		this.setFilter({filterIssue: !this.state.filterIssue})
 	}
 
 	handleFilterLanguage = (newOption) => {
-		this.setState({filterLanguage: newOption}, () => {
-			this.getFilteredData.languageFilter()
-		})
+		//this.setState({filterLanguage: newOption}, this.getFilteredData.languageFilter)
+		this.setFilter({filterLanguage: newOption})
+		
 	}
 
 	handleFilterTopics = () => {
-		this.setState({filterTopics: !this.state.filterTopics}, () => {
+	/* 	this.setState({filterTopics: !this.state.filterTopics}, () => {
 			this.getFilteredData.topicsFilter()
-		})
+		}) */
+		this.setFilter({filterTopics: !this.state.filterTopics})
+		
 	}
 
 	handleFilterDate = (newDate) => {
-		this.setState({filterDateUdate: newDate}, () => {
+		/* this.setState({filterDateUdate: newDate}, () => {
 			this.getFilteredData.dateUpdateFilter()
-		})
+		}) */
+		this.setFilter({filterDateUdate: newDate})
+		
 	}
 
-	handleFilterType = (newType) => {
-		this.setState({fiterType: newType}, () => {
+	handleFilterType = (fiterType) => {
+		/* this.setState({fiterType: newType}, () => {
 			this.getFilteredData.typeFilter()
-		})
+		}) */
+		this.setFilter(fiterType)
+		
 	}
 
 	handleFilterStar = (newValue) => {
-		this.setState({filterStar: newValue}, () => {
+		/* this.setState({filterStar: newValue}, () => {
 			this.getFilteredData.StarFilter()
-		})
+		}) */
+		this.setFilter({filterStar: newValue})
+		
 	}
+
+	//filterSetValue = (type, value) => this.setState({ filters: { ...this.state.filters, [type]: value } })
 
 	handleSortType = (sort) => {
 		this.setState({sortTypes: sort})
@@ -120,57 +143,59 @@ class User extends Component {
 		//this.getFilteredData().StarFilter()
 	}
 
-	handleModalOpen = (activeRepos) => this.setState({modalOpened: !this.state.modalOpened,
-		activeRepos: activeRepos})
-
 
 	getFilteredData = {
 		issueFilter: () => {
 			if(this.state.filterIssue) {
-				let filteredArr = this.state.reposFiltered
-				filteredArr = this.state.repos.filter((item) => item.open_issues > 0)
-				this.setState({reposFiltered: filteredArr, isfiltered: true})
+				let filteredArr = this.state.isfiltered ? this.state.reposFiltered : this.state.repos
+				const filtered = filteredArr.filter((item) => item.open_issues > 0)
+				this.setState({reposFiltered: filtered, isfiltered: true})
 			} else this.isFilteredRepos()
 		},
 		languageFilter: () => {
 			if(this.state.filterLanguage !== 'all') {
-				let filteredArr = this.state.reposFiltered
-				filteredArr = this.state.repos.filter((item) => item.language.toLowerCase() === this.state.filterLanguage)
-				this.setState({reposFiltered: filteredArr, isfiltered: true})
+				const filteredArr = this.state.isfiltered ? this.state.reposFiltered : this.state.repos
+				const filtered = filteredArr.filter((item) => item.language.toLowerCase() === this.state.filterLanguage)
+
+				console.log(filteredArr, 'filtered buy languages', this.state.filterLanguage)
+				this.setState({reposFiltered: filtered, isfiltered: true})
 			} else this.isFilteredRepos()
 		},
 		StarFilter: () => {
 			if(this.state.filterStar > 0) {
-				let filteredArr = this.state.reposFiltered
-				filteredArr = this.state.repos.filter((item) => item.stargazers_count > this.state.filterStar)
-				this.setState({reposFiltered: filteredArr, isfiltered: true})
+				let filteredArr = this.state.isfiltered ? this.state.reposFiltered : this.state.repos
+				const filtered = filteredArr.filter((item) => item.stargazers_count > this.state.filterStar)
+				this.setState({reposFiltered: filtered, isfiltered: true})
 			} else this.isFilteredRepos()
 		},
 		typeFilter: () => {
 			if(this.state.fiterType !== 'all') {
-				let filteredArr = this.state.reposFiltered
+				let filteredArr = this.state.isfiltered ? this.state.reposFiltered : this.state.repos
+				let filtered = []
 				if(this.state.fiterType === 'forks') {
-					filteredArr = this.state.repos.filter((item) => item.fork)
-				} else filteredArr = this.state.repos.filter((item) => !item.fork)
-				this.setState({reposFiltered: filteredArr, isfiltered: true})
+					filtered = filteredArr.filter((item) => item.fork)
+				} else  {
+					filtered = filteredArr.filter((item) => !item.fork)
+				}
+				this.setState({reposFiltered: filtered, isfiltered: true})
 			} else this.isFilteredRepos()
 		},
 		topicsFilter: () => {
 			if(this.state.filterTopics) {
-				let filteredArr = this.state.reposFiltered
-				filteredArr = this.state.repos.filter((item) => item.topics.length > 0)
-				this.setState({reposFiltered: filteredArr, isfiltered: true})
+				let filteredArr = this.state.isfiltered ? this.state.reposFiltered : this.state.repos
+				const filtered = filteredArr.filter((item) => item.topics.length > 0)
+				this.setState({reposFiltered: filtered, isfiltered: true})
 			} else this.isFilteredRepos()
 			console.log('filtered topics', this.state.reposFiltered)
 		},
 		dateUpdateFilter: () => {
 			const stateDate = this.state.filterDateUdate
-			let filteredArr = this.state.reposFiltered
+			let filteredArr = this.state.isfiltered ? this.state.reposFiltered : this.state.repos
 			if(stateDate !== '') {
-				filteredArr = this.state.repos.filter((item) => {
+				const filtered = filteredArr.filter((item) => {
 					return ((new Date(item.pushed_at).getTime()) > (new Date(stateDate).getTime()))
 				})
-				this.setState({reposFiltered: filteredArr, isfiltered: true})
+				this.setState({reposFiltered: filtered, isfiltered: true})
 			} else this.isFilteredRepos()
 			console.log('filtered date', this.state.reposFiltered)
 		}
@@ -183,11 +208,62 @@ class User extends Component {
 		}
 	}
 
+
+	setFilter = filter => this.setState({...this.state.filter, ...filter})
+	resetFilter = key => {
+		const {filters} = this.state
+
+		//see
+		//delete key from filters
+
+		this.setState({filters})
+	}
+	// this.setFilter({language: 'javascript'})
+	// this.resetFilter('language')
+	getReposByFilters = () => {
+		const {filters, repos} = this.state
+
+		const getFilterByKey = key => {
+			switch (key) {
+				case 'filterIssue': {
+					return item => item.open_issues > 0
+				}
+
+				case 'filterLanguage': {
+					return item => item.language.toLowerCase() === filters.language
+				}
+
+				case 'stars': {
+					return item => item.stargazers_count > filters.stars
+				}
+
+				case 'fiterType': {
+					return item => item.fork === filters.fork
+				}
+
+				case 'filterStar': {
+					item => item.topics.length > 0
+				}
+
+				case 'filterDateUdate': {
+					(item) => ((new Date(item.pushed_at).getTime()) > (new Date(filters.date).getTime()))
+				}
+
+				default:
+					item => item
+			}
+		}
+
+		const filtersCompose = compose(Object.keys(filters || {}).map(getFilterByKey))
+
+		return (repos || []).filter(filtersCompose)
+	}
+
 	render() {
 		const userInfo = this.state.userInfo !== null && this.state.userInfo
 		const repos = this.state.repos !== null && this.state.repos
 		const nextPage = !this.state.error && this.state.nextPage !== null && this.state.nextPage
-		const listRepos = this.state.isfiltered ? this.state.reposFiltered : repos
+		const filteredRepos = this.getReposByFilters()
 		console.log('state child parent', this.state.sortTypes)
 
 		return (
@@ -213,6 +289,7 @@ class User extends Component {
 					fiterType={this.handleFilterType}
 					fiterStar={this.handleFilterStar}
 					fiterStarValue={this.state.filterStar}
+					filterSetValue = {this.filterSetValue}
 				/>
 				<SortPanel sortType={sortType}
 					sortTypeValue={this.state.sortTypes}
@@ -220,11 +297,12 @@ class User extends Component {
 				/>
 				<div className="user__list">
 					<div className="container">
-						{listRepos && listRepos.map((item, key) => <ItemRepository
+						{filteredRepos.map((item, key) => <ItemRepository
 							name={item.name} key={key}
 							description={item.description}
 							owner={item.owner.login}
 							forks={item.forks}
+							html_url={item.html_url}
 							openRepos={this.handleModalOpen}
 							language={item.language}
 							updated_at={DataParse(item.pushed_at)}
@@ -234,11 +312,6 @@ class User extends Component {
 						</div>
 					</div>
 					{this.state.loading && <Loader />}
-					{this.state.modalOpened && <ReposInfo
-						handleOpen={this.handleModalOpen}
-						user={userInfo.login}
-						repoName={this.state.activeRepos}
-						/>}
 				</div>
 			</div> : <div>{this.state.error.message}</div>
 
