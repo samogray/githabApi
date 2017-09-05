@@ -28,7 +28,7 @@ class App extends Component {
 	}
 
 	clearInput = () => this.setState({value: '', data: null, error: false})
-	goLink = (link) => browserHistory.push(`process.env.PUBLIC_URL + /${link}`)
+	goLink = (link) => browserHistory.push(`${process.env.PUBLIC_URL}${link}`)
 
 	fetchUser = () => fetchUser(this.state.value).then(({data = null, error}) => {
 		this.setState({data, error, loading: false})
