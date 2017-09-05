@@ -32,7 +32,7 @@ class App extends Component {
 
 	fetchUser = () => fetchUser(this.state.value).then(({data = null, error}) => {
 		this.setState({data, error, loading: false})
-		!this.state.error ? this.goLink(data.login) : browserHistory.push(`*`)
+		!this.state.error && this.goLink(data.login)
 	})
 
 	render() {
