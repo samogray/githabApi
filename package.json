@@ -46,7 +46,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "npm run build && gh-pages --dist build --branch master",
+    "deploy": "gh-pages --dist build --branch master build",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
