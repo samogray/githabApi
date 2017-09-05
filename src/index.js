@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './pages/app';
-import Layout from './pages/layout';
-import NorFound from './pages/not-found';
-import User from './pages/user-page';
-import Repository from './pages/repository';
+import App from './app';
+import Layout from './app/layout';
+import NorFound from './app/app-component/not-found';
+import User from './app/user-page';
+import Repository from './app/app-component/repository';
 import {Router, Route, browserHistory, IndexRoute} from 'react-router'
 import registerServiceWorker from './registerServiceWorker';
 
@@ -17,9 +17,9 @@ ReactDOM.render(<Router history={browserHistory}>
 	<Route component={Layout}>
 		<Route path={process.env.PUBLIC_URL + '/'} component={App}></Route>
 		<IndexRoute component={App} />
-		<Route path='/:user' component={User}></Route>
+		<Route path={process.env.PUBLIC_URL + '/:user'} component={User}></Route>
 		<Route path=':user/:repository' component={Repository}></Route>		
-		<Route path='*' component={NorFound}></Route>
+		<Route path={process.env.PUBLIC_URL + '*'} component={NorFound}></Route>
 	</Route>
 </Router>, document.getElementById('root'));
 registerServiceWorker();

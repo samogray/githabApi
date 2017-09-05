@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import Icon from './../../components/icon';
-import {color} from './colors'
+import {color} from './../helpers/colors'
 import {Link} from 'react-router'
-import ReposInfo from './../repository'
+import ReposInfo from './repository'
 
 
 

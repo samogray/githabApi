@@ -16,6 +16,11 @@
     .sk-circle .sk-child:before {
       background-color: #fff;
     }
+    &_blue {
+      .sk-circle .sk-child:before {
+        background-color: #03A9F4;
+      }
+    }
   }
 }
 

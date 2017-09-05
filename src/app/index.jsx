@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import './App.scss';
-import Icon from './../../components/icon'
-//import Loading from './../../components/loading'
+import './app.scss';
+import Icon from './../components/icon'
 import classNames from 'classnames'
 import {browserHistory} from 'react-router'
-import {fetchUser} from './fetch-data'
-import Loader from './../../components/loading'
+import {fetchUser} from './helpers/fetch-data'
+import Loader from './../components/loading'
 
 
 class App extends Component {
@@ -33,7 +32,7 @@ class App extends Component {
 
 	fetchUser = () => fetchUser(this.state.value).then(({data = null, error}) => {
 		this.setState({data, error, loading: false})
-		!this.state.error && this.goLink(data.login)
+		!this.state.error ? this.goLink(data.login) : browserHistory.push(`*`)
 	})
 
 	render() {

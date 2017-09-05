@@ -7,7 +7,6 @@ export const getNextPage = (str) => {
 		}
 	}
 	let arr =  str.split(';')
-	console.log('str', str)
 	let iflast = str.indexOf('next') === -1 || !str 
 	let page = !iflast && arr[0].slice(-2).charAt(0)
 	return nextPage = {

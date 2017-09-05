@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import ModalWindow from './../../components/modal-window'
-import {fetchReposInfo, fetchContributorInfo, fetchLanguagesInfo, fetchPrInfo} from './../app/fetch-data'
-import Loader from './../../components/loading'
+import ModalWindow from './../../../components/modal-window'
+import {fetchReposInfo, fetchContributorInfo, fetchLanguagesInfo, fetchPrInfo} from './../../helpers/fetch-data'
+import Loader from './../../../components/loading'
+import './repository.scss'
 class Repository extends Component {
   state = {
     loading: false,
@@ -51,7 +52,6 @@ class Repository extends Component {
       languages,
       languagesValue,
       prInfo} = this.state
-    console.log(this.state.prInfo)
     return (
       <ModalWindow handleOpen={this.props.handleOpen}>
         {(reposInfo && !loading) ? <div className="repo">

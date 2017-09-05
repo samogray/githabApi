@@ -1,43 +1,61 @@
 import React from 'react';
+const types = ['all', 'forks', 'sources']
 
 class FilterPanel extends React.Component {
 
-	state = {
-		selectedOption: this.props.filteredLanguageValue,
-		date: this.props.fiterUpdateDateValue,
-		type: this.props.fiterTypeValue,
-		star: this.props.filterStarValue
-	}
 
 	handleChangeLanguage = (event) => {
-		this.props.filterLanguage(event.target.value)
+		if (event.target.value === 'all') {
+			this.props.resetFilter('language')
+			return
+		}
+		this.props.setFilter({language: event.target.value})
 	}
 	handleFilterIssue = (event) => {
-		this.props.handleIssue(event.target.checked)
+		if (!event.target.checked) {
+			this.props.resetFilter('issue')
+			return
+		}
+		this.props.setFilter({issue: event.target.checked})
 	}
 	handleChangeDate = (event) => {
-		this.props.fiterUpdateDate(event.target.value)
+		if (event.target.value === '') {
+			this.props.resetFilter('date')
+			return
+		}
+		this.props.setFilter({date: event.target.value})
 	}
 	handleChangeStar = (event) => {
-		this.props.fiterStar(event.target.value)
+		if (event.target.value === '') {
+			this.props.resetFilter('stars')
+			return
+		}
+		this.props.setFilter({stars: event.target.value})
 	}
 	handleTypeChange = (event) => {
-		this.props.fiterType(event.target.value)
+		if (event.target.value === 'all') {
+			this.props.resetFilter('type')
+			return
+		}
+		this.props.setFilter({type: event.target.value})
 	}
 	handleFilterTopics = (event) => {
-		this.props.FilterTopics(event.target.checked)
+		if (!event.target.checked) {
+			this.props.resetFilter('topics')
+			return
+		}
+		this.props.setFilter({topics: event.target.checked})
 	}
 
 	render() {
-		console.log(this.props.filteredLanguageValue);
-		const {languages, type} = this.props
-		const {filterLanguage, filterIssue, filterTopics, filterDateUdate, fiterType, filterStar} = this.props.filter
+		const {languages} = this.props
+		const {language, issue, topics, date, type = 'all', stars} = this.props.filter
 		return <div className="user__filter">
 			<div className="container">
 				<fieldset className="user__filter-item">
 					<legend>Languges</legend>
 					<select name="language" id="language"
-						value={filterLanguage} onChange={this.handleChangeLanguage}>
+						value={language} onChange={this.handleChangeLanguage}>
 						<option value="all" key="all">All</option>
 						{languages.map((item, key) => <option value={item.toLowerCase()} key={key}>{item}</option>)}
 					</select>
@@ -46,23 +64,23 @@ class FilterPanel extends React.Component {
 				<legend>Updated after X date</legend>
 					<input type="date"
 						id="dateupdate"
-						value={this.props.fiterUpdateDateValue}
+						value={date}
 						onChange={this.handleChangeDate} />
 				</fieldset>
 				<fieldset className="user__filter-item">
 				<legend>starred >= X times</legend>
 					<input type="number"
-						value={this.props.fiterStarValue}
+						value={stars}
 						onChange={this.handleChangeStar} />
 				</fieldset>
 				<fieldset className="user__filter-item">
-					{type.map((item, key) => <div className="user__filter-item user__filter-item_nomargin">
+					{types.map((item, key) => <div className="user__filter-item user__filter-item_nomargin" key={key}>
 						<input type="radio"
 							id={item.toLowerCase()}
 							name="type"
-							value={item.toLowerCase()}
+							value={item}
 							onChange={this.handleTypeChange}
-							checked={item === fiterType}/>
+							checked={item === type}/>
 							<label htmlFor={item.toLowerCase()} key={key}> {item} </label>
 				</div>)}
 				</fieldset>
@@ -71,7 +89,7 @@ class FilterPanel extends React.Component {
 					<input type="checkbox"
 						id="issue"
 						onChange={this.handleFilterIssue}
-						checked={filterIssue} />
+						checked={issue} />
 					Has open issues</label>
 			</fieldset>
 			<fieldset className="user__filter-item">
@@ -80,7 +98,7 @@ class FilterPanel extends React.Component {
 						<input type="checkbox"
 						id="topic"
 						onChange={this.handleFilterTopics}
-						checked={filterTopics} />
+						checked={topics} />
 				</label>
 			</fieldset>
 			</div>

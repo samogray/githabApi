@@ -1,7 +1,7 @@
 import React from 'react'
 import './loader.scss'
 
-const Loading = ({absolute}) => <div className={`loader ${absolute && 'loader_absolute'}`}>
+const Loading = ({absolute, blue}) => <div className={`loader ${absolute && 'loader_absolute'} ${blue && 'loader_absolute_blue'}`}>
 <div className="sk-circle">
 <div className="sk-circle1 sk-child"></div>
 <div className="sk-circle2 sk-child"></div>
