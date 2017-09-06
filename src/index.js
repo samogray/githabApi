@@ -5,7 +5,6 @@ import App from './app';
 import Layout from './app/layout';
 import NorFound from './app/app-component/not-found';
 import User from './app/user-page';
-import Repository from './app/app-component/repository';
 import {Router, Route, browserHistory, IndexRoute} from 'react-router'
 import registerServiceWorker from './registerServiceWorker';
 

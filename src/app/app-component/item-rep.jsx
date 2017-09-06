@@ -32,30 +32,34 @@ class ItemRepository extends Component {
 		}
 
 		return (
-			<div className="card">
-				<h3>
-					<button className="card__name"
-						title={name}
-						onClick={this.handleModalOpen}>{name}</button>
-				</h3>
-				<p className="card__description">
-					{description}
-				</p>
-				<div className="card__footer">
+			<article className="card">
+				<div>
+					<header>
+						<h3 className="card__title">
+							<button className="card__link ellipsis"
+								title={name}
+								onClick={this.handleModalOpen} title={name}>{name}</button>
+						</h3>
+					</header>
+					<p className="card__description ellipsis">
+						{description}
+					</p>
+				</div>
+				<footer className="card__footer">
 					<div className="card__footer-item">
 						<span className="card__badge" style={{backgroundColor: color[language]}}></span>{language}</div>
 					<div className="card__footer-item">
 						<Icon name="star-ico" width={16} height={16} />{parseStar(stargazers_count)}</div>
 					<div className="card__footer-item"><Icon name="fork-ico" width={16} height={16} />{forks}</div>
 					<div className="card__footer-item" >{updated_at}</div>
-				</div>
+				</footer>
 				{this.state.modalOpened && <ReposInfo
 					handleOpen={this.handleModalOpen}
 					user={owner}
 					repoName={name}
 					linkRepo={html_url}
-					/>}
-			</div>
+				/>}
+			</article>
 		);
 	}
 }
