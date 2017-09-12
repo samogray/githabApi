@@ -1,13 +1,13 @@
 .modal {
   z-index: 9999;
-	position: fixed;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   &__overlay {
     position: fixed;
     display: flex;
@@ -25,9 +25,8 @@
     position: relative;
     padding: 15px;
     border-radius: 10px;
-    min-width: 70vw;
     z-index: 2;
-    max-width: 400px;
+    width: 700px;
   }
   &__close-btn {
     position: absolute;
@@ -41,5 +40,4 @@
       color: #5B1212;
     }
   }
-  
 }

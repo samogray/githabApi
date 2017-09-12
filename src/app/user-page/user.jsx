@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import {fetchUser, fetchRepos} from './../helpers/fetch-data'
 import {DataParse} from './../helpers/date-parse'
-import {getLanguages} from './../helpers/get-languages'
 import ItemRepository from './../app-component/item-rep'
 import Loader from './../../components/loading'
+import Icon from './../../components/icon'
 import FilterPanel from './../app-component/filter'
 import SortPanel from './../app-component/sort-panel'
 import UserInfo from './../app-component/user-info'
-import {browserHistory} from 'react-router'
+import {Link} from 'react-router'
 
 import './user.scss'
 
@@ -93,7 +92,6 @@ class User extends Component {
 					return item => item
 			}
 		}
-
 		const filters = Object.keys(filter || {}).map(key => getFilterByKey(key))
 		return filtersChain(filters)(repos || [])
 	}
@@ -122,42 +120,55 @@ class User extends Component {
 
 		return (
 			<div className="user">
-				<UserInfo avatar_url={userInfo.avatar_url}
-					login={userInfo.login}
-					name={userInfo.name}
-					bio={userInfo.bio}
-					blog={userInfo.blog}
-					location={userInfo.location}
-				/>
-				<FilterPanel
-					languages={languages}
-					setFilter={this.setFilter}
-					resetFilter={this.resetFilter}
-					filter={filter}
-				/>
-				<SortPanel sortTypeValue={this.state.sortBy}
-					SortType={this.handleSortType}
-					reverseSort ={this.reverseSort}
-				/>
-				<div className="user__list">
-					<div className="container">
-						{((this.state.reverseSort ? sortRepos.reverse() : sortRepos) || repos || []).map((item, key) => <ItemRepository
-							name={item.name} key={key}
-							description={item.description}
-							owner={item.owner.login}
-							forks={item.forks}
-							html_url={item.html_url}
-							openRepos={this.handleModalOpen}
-							language={item.language}
-							updated_at={DataParse(item.pushed_at)}
-							stargazers_count={item.stargazers_count} />)}
-						<div className="user__pagination">
-							{!nextPage.iflast && <div className="user__load">
-							{loadingPage ? <Loader absolute blue/> : <button className="btn" onClick={onLoadPage}>Load More</button>}
-								</div>}
-						</div>
+			<Link to={`${process.env.PUBLIC_URL}/`} className="btn btn_home">
+			<Icon name="home-ico"/>
+			</Link>
+				<div className="user__aside">
+					<div className="user__aside-wrp">
+						<UserInfo avatar_url={userInfo.avatar_url}
+							login={userInfo.login}
+							name={userInfo.name}
+							bio={userInfo.bio}
+							blog={userInfo.blog}
+							location={userInfo.location}
+						/>
+						<FilterPanel
+							languages={languages}
+							setFilter={this.setFilter}
+							resetFilter={this.resetFilter}
+							filter={filter}
+						/>
+						<SortPanel sortTypeValue={this.state.sortBy}
+							SortType={this.handleSortType}
+							reverseSort={this.reverseSort}
+						/>
 					</div>
 				</div>
+				<section className="user__list">
+					<div className="container">
+						<div className="row">
+							{((this.state.reverseSort ? sortRepos.reverse()
+								: sortRepos) || repos || []).map((item, key) => <div className="col" key={key}>
+									<ItemRepository
+										name={item.name} key={key}
+										description={item.description}
+										owner={item.owner.login}
+										forks={item.forks}
+										html_url={item.html_url}
+										openRepos={this.handleModalOpen}
+										language={item.language}
+										updated_at={DataParse(item.pushed_at)}
+										stargazers_count={item.stargazers_count} />
+								</div>)}
+						</div>
+
+						<div className="user__pagination">
+							{!nextPage.iflast && <div className="user__load">
+								{loadingPage ? <Loader absolute blue /> : <button className="btn" onClick={onLoadPage}>Load More</button>}
+							</div>}
+						</div>
+					</div>
+				</section>
 			</div>
 		)
 	}
