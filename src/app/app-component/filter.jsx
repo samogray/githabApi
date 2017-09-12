@@ -80,33 +80,38 @@ class FilterPanel extends React.Component {
 						onChange={this.handleChangeStar} />
 				</fieldset>
 				<fieldset className="user__filter-item">
-					{types.map((item, key) => <div className="user__filter-item user__filter-item_nomargin" key={key}>
+					<legend className="user__label">Type</legend>
+					{types.map((item, key) => <div className="radio-button" key={key}>
 						<input type="radio"
 							id={item.toLowerCase()}
 							name="type"
 							value={item}
+							className="radio-button__input"
 							onChange={this.handleTypeChange}
 							checked={item === type} />
-						<label htmlFor={item.toLowerCase()} key={key}> {item} </label>
+						<label htmlFor={item.toLowerCase()} key={key} className="radio-button__label"> {item} </label>
 					</div>)}
 				</fieldset>
 				<fieldset className="user__filter-item">
-					<label htmlFor="issue">
+					<div className="checkbox">
 						<input type="checkbox"
 							id="issue"
+							className="checkbox__input"
 							onChange={this.handleFilterIssue}
 							checked={issue} />
-						Has open issues</label>
+						<label htmlFor="issue" className="checkbox__label">Has open issues</label>
+					</div>
 				</fieldset>
-				<fieldset className="user__filter-item">
-					<label htmlFor="topic">
-						Has topics
+				<div className="user__filter-item">
+					<div className="checkbox">
 						<input type="checkbox"
 							id="topic"
+							className="checkbox__input"
 							onChange={this.handleFilterTopics}
 							checked={topics} />
-					</label>
-				</fieldset>
+						<label htmlFor="topic" className="checkbox__label">Has topics</label>
+					</div>
+				</div>
 			</div>
 		</div>
 

@@ -150,7 +150,7 @@ class User extends Component {
 					<div className="container">
 						<div className="row">
 							{((this.state.reverseSort ? sortRepos.reverse()
-								: sortRepos) || repos || []).map((item, key) => <div className="col">
+								: sortRepos) || repos || []).map((item, key) => <div className="col" key={key}>
 									<ItemRepository
 										name={item.name} key={key}
 										description={item.description}

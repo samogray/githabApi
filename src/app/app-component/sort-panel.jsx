@@ -1,5 +1,10 @@
 import React from 'react'
+import Icon from './../../components/icon'
 const sortType = [
+	{
+		title: 'None',
+		id: 'noneSort'
+	},
 	{
 		title: 'repo name',
 		id: 'repoSort'
@@ -15,38 +20,35 @@ const sortType = [
 	{
 		title: 'updated date',
 		id: 'dateSort'
-	},
-	{
-		title: 'None',
-		id: 'noneSort'
 	}
 ]
 
 class SortPanel extends React.Component {
+	state = {
+		reverseEnable: false
+	}
 	handleTypeChange = (event) => {
 		this.props.SortType(event.target.value)
+		event.target.value === "nonesort" ? this.setState({reverseEnable: false}) : this.setState({reverseEnable: true})
 	}
 	reverseSort = (event) => {
 		this.props.reverseSort(event.target.checked)
 	}
 	render() {
-		return <div className="user__filter user__filter_sort">
+		return <div className="user__filter">
+			<h3 className="user__filter-title">Sorting by list</h3>
 			<div className="container">
-				<fieldset className="user__filter-item user__filter-item_full">
-					<legend>Sorting by list</legend>
-					{sortType.map((item, key) => <div className="user__filter-item user__filter-item_nomargin" key={key}>
-						<input type="radio"
-							id={item.id.toLowerCase()}
-							name="sort"
-							value={item.id.toLowerCase()}
-							onChange={this.handleTypeChange}
-							checked={item.id.toLowerCase() === this.props.sortTypeValue.toLowerCase()} />
-						<label htmlFor={item.id.toLowerCase()} key={key}>{item.title} </label></div>)}
-					<div className="user__filter-item user__filter-item_nomargin">
-						<input type="checkbox" id="reverse" onChange = {this.reverseSort}/>
-						<label htmlFor="reverse">Revers sort</label>
-					</div>
-				</fieldset>
+				<div className="user__filter-item user__filter-item_flex">
+					<select className="user__input user__input_text user__input_width-auto" onChange={this.handleTypeChange}>
+						{sortType.map((item, key) => <option value={item.id.toLowerCase()} key={key}>{item.title}</option>)}
+					</select>
+					{this.state.reverseEnable && <div className="checkbox checkbox_icon">
+						<input type="checkbox" id="reverse" onChange={this.reverseSort} className="checkbox__input" />
+						<label htmlFor="reverse" className="checkbox__label" title="reverse">
+							<Icon name="sort-ico" />
+						</label>
+					</div>}
+				</div>
 			</div>
 		</div>
 

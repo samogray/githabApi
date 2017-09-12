@@ -9,7 +9,7 @@ const UserInfo = ({avatar_url, login, name, bio, location, blog}) => <div classN
 					<img className="thumbnail__pic" src={avatar_url} alt={login} />
 				</div>
 			</div>
-			<h1 className="user__name">{name}</h1>
+			<h1 className="user__name ellipsis">{name}</h1>
 		</div>
 		<div className="user__info">
 			<p className="user__description">{bio}</p>
