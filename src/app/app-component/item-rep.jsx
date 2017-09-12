@@ -1,10 +1,9 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types'
 import Icon from './../../components/icon';
 import {color} from './../helpers/colors'
-import {Link} from 'react-router'
 import ReposInfo from './repository'
-
-
+import {fetchReposInfo, fetchContributorInfo, fetchLanguagesInfo, fetchPrInfo} from '../helpers/fetch-data'
 
 class ItemRepository extends Component {
 	static propTypes = {
@@ -16,21 +15,56 @@ class ItemRepository extends Component {
 		stargazers_count: PropTypes.number
 	}
 
-	//handleOpenRepos = (owner, name) => this.props.openRepos(this.props.owner, this.props.name)
 	state = {
 		activeRepos: '',
 		modalOpened: false
 	}
-	//handleActiveRepos =()=> this.props.openRepos(this.props.name)
-	handleModalOpen = () => this.setState({modalOpened: !this.state.modalOpened})
 
-	render() {
-		const {name, description, forks, language, stargazers_count, updated_at, owner, html_url} = this.props
-		const parseStar = (count) => {
-			let star = count > 1000 ? `${(count / 1000).toFixed(2)}k` : count
-			return star
+	handlerLoadData = ({data, error}) => {
+		if(error) {
+			throw error
 		}
 
+		return data
+	}
+
+	handleModalOpen = () => {
+		this.setState({loading: true})
+		const {name, owner} = this.props
+		fetchReposInfo(name, owner)
+			.then(this.handlerLoadData)
+			.then(reposInfo =>
+				fetchContributorInfo(name, owner)
+					.then(this.handlerLoadData)
+					.then(contributors => ({contributors, reposInfo}))
+			)
+			.then(data =>
+				fetchLanguagesInfo(name, owner)
+					.then(this.handlerLoadData)
+					.then(languages => {
+						const langValue = Object.keys(languages).map(lng => languages[lng])
+						return {...data, languages, langValue}
+					})
+			)
+			.then(data =>
+				fetchPrInfo(name, owner)
+					.then(this.handlerLoadData)
+					.then(prInfo => ({...data, prInfo}))
+			)
+			.then(data => this.setState({...data, loading: false}))
+			.catch(error => {
+				console.log(error)
+				this.setState({error, loading: false})
+			})
+		this.setState({modalOpened: !this.state.modalOpened})
+	}
+	parseStar = (count) => {
+		let star = count > 1000 ? `${(count / 1000).toFixed(2)}k` : count
+		return star
+	}
+	render() {
+		const {name, description, forks, language, stargazers_count, updated_at} = this.props
+		const {...rest} = this.state
 		return (
 			<article className="card">
 				<div>
@@ -49,15 +83,13 @@ class ItemRepository extends Component {
 					<div className="card__footer-item">
 						<span className="card__badge" style={{backgroundColor: color[language]}}></span>{language}</div>
 					<div className="card__footer-item">
-						<Icon name="star-ico" width={16} height={16} />{parseStar(stargazers_count)}</div>
+						<Icon name="star-ico" width={16} height={16} />{this.parseStar(stargazers_count)}</div>
 					<div className="card__footer-item"><Icon name="fork-ico" width={16} height={16} />{forks}</div>
 					<div className="card__footer-item" >{updated_at}</div>
 				</footer>
 				{this.state.modalOpened && <ReposInfo
+					{...rest}
 					handleOpen={this.handleModalOpen}
-					user={owner}
-					repoName={name}
-					linkRepo={html_url}
 				/>}
 			</article>
 		);

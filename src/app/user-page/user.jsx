@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
-import {fetchUser, fetchRepos} from './../helpers/fetch-data'
 import {DataParse} from './../helpers/date-parse'
-import {getLanguages} from './../helpers/get-languages'
 import ItemRepository from './../app-component/item-rep'
 import Loader from './../../components/loading'
 import Icon from './../../components/icon'
 import FilterPanel from './../app-component/filter'
 import SortPanel from './../app-component/sort-panel'
 import UserInfo from './../app-component/user-info'
-import {browserHistory, Link} from 'react-router'
+import {Link} from 'react-router'
 
 import './user.scss'
 

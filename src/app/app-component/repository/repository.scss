@@ -80,10 +80,10 @@
 
 .repo {
   font-size: 14px;
-  color: #03A9F4;
+  color: #586069;
   &__name {
     font-size: 28px;
-    color: darken(#03A9F4, 10%);
+    color: darken(#586069, 10%);
     border-bottom: 1px solid #cdcdcd;
     font-weight: 300;
     padding-bottom: 20px;
@@ -96,10 +96,10 @@
     padding-bottom: 10px;
     transition: color .2s ease-out;
     &_pr {
-      color: darken(#03A9F4, 15%);
+      color: darken(#586069, 15%);
     }
     &:hover {
-      color: darken(#03A9F4, 15%);
+      color: darken(#586069, 15%);
     }
   }
   &__section {
