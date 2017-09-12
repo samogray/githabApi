@@ -10,6 +10,7 @@ Hey! this is my test assignment for Kottans Front End
 
 > - `npm i` <i class="icon-refresh"></i>
 > - `npm start`
+> - deploy `gh-pages --dist build --branch master` expects cli (npm i gh-pages -g)
 > - Thanks <i class="icon-ok"></i>
 
 ----------
